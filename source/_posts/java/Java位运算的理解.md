@@ -1,5 +1,6 @@
 ---
 title: Java位运算的理解
+urlname: bit_operation
 date: 2021-12-26 17:57:34
 tags: Java
 categories: Java

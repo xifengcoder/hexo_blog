@@ -1,6 +1,6 @@
 ---
 title: {{ title }}
-urlname: 显示的url路径
+urlname: {{ title }}
 date: {{ date }}
 tags:
 categories: 

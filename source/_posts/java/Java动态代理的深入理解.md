@@ -1,5 +1,6 @@
 ---
 title: Java动态代理的深入理解
+urlname: dynamic_proxy
 date: 2021-12-26 17:33:23
 tags: Java
 categories: Java
