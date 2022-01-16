@@ -2,8 +2,8 @@
 title: OKhttp的理解-CacheInterceptor
 urlname: okhttp_interceptor
 date: 2021-12-26 17:29:13
-tags: 网络
-categories: http
+tags: Http
+categories: Network
 description: OKHttp中的CacheInterceptor的理解...
 ---
 

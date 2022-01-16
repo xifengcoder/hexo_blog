@@ -2,8 +2,8 @@
 title: 微信Mars连接库学习
 urlname: network_mars
 date: 2021-12-26 17:52:11
-tags: 网络
-categories: TCP
+tags: TCP
+categories: Network
 description: 微信Mars长连接库的学习与理解...
 ---
 

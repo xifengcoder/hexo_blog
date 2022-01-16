@@ -1,8 +1,8 @@
 ---
 title: Cache-Control的理解
 urlname: http_cache_control
-tags: 网络
-categories: Http
+tags: Http
+categories: Network
 date: 2021-12-26 17:25:12
 description: Http协议中的Cache-Control...
 ---
