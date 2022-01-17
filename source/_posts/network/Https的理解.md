@@ -102,11 +102,11 @@ description: 通过WireShark抓包分析Https协议的内容...
 5) 支持的压缩方法
 6）扩展属性
 
-![1](https://img-blog.csdnimg.cn/20190223205741870.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpZmVucw==,size_16,color_FFFFFF,t_70)
-![2](https://img-blog.csdnimg.cn/20190223205654335.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpZmVucw==,size_16,color_FFFFFF,t_70)
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190223210001952.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpZmVucw==,size_16,color_FFFFFF,t_70)
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190223210015609.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpZmVucw==,size_16,color_FFFFFF,t_70)
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190223210023801.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpZmVucw==,size_16,color_FFFFFF,t_70)
+![Client Hello1](https://img-blog.csdnimg.cn/20190223205741870.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpZmVucw==,size_16,color_FFFFFF,t_70)
+![Client Hello2](https://img-blog.csdnimg.cn/20190223205654335.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpZmVucw==,size_16,color_FFFFFF,t_70)
+![Client Hello3](https://img-blog.csdnimg.cn/20190223210001952.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpZmVucw==,size_16,color_FFFFFF,t_70)
+![Client Hello4](https://img-blog.csdnimg.cn/20190223210015609.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpZmVucw==,size_16,color_FFFFFF,t_70)
+![Client Hello5](https://img-blog.csdnimg.cn/20190223210023801.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpZmVucw==,size_16,color_FFFFFF,t_70)
 
 ####  2.  Server Hello （Server --> Client ）
 
@@ -119,7 +119,7 @@ description: 通过WireShark抓包分析Https协议的内容...
 4)  session ID(32字节)
 5）选择的Cipher Suit，这里是：TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (0xc02f)
 6) 扩展部分
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190223210240623.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpZmVucw==,size_16,color_FFFFFF,t_70)
+![Server Hello](https://img-blog.csdnimg.cn/20190223210240623.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpZmVucw==,size_16,color_FFFFFF,t_70)
 
 #### 3.  Server Certificate （Server --> Client ）
 
@@ -145,7 +145,7 @@ description: 通过WireShark抓包分析Https协议的内容...
 
 6.3 证书签名(encrypted)，长度256字节，例如：88291e3da5b2d39ed5406cb1185d27fd3abe233d3e4c2050...
 
-![](https://img-blog.csdnimg.cn/20190223210317796.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpZmVucw==,size_16,color_FFFFFF,t_70)
+![Server Certificate](https://img-blog.csdnimg.cn/20190223210317796.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpZmVucw==,size_16,color_FFFFFF,t_70)
 
 #### 4. Client Certificate (Client --> Server，可选)
 
@@ -174,12 +174,12 @@ description: 通过WireShark抓包分析Https协议的内容...
   		Signature Length: 256 (2bytes)
   		Signature: 4809b694a751868299023f90385b2012ed9a2916c957da16…（256bytes）
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/2019022321034489.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpZmVucw==,size_16,color_FFFFFF,t_70)
+![Server Key Exchange](https://img-blog.csdnimg.cn/2019022321034489.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpZmVucw==,size_16,color_FFFFFF,t_70)
 
 #### 6. Server Hello Done (Server--> Client )
 
 服务端确认Server Hello消息的结束。
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190223210417283.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpZmVucw==,size_16,color_FFFFFF,t_70)
+![Server Hello Done](https://img-blog.csdnimg.cn/20190223210417283.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpZmVucw==,size_16,color_FFFFFF,t_70)
 
 #### 7. Client Key Exchange (Client --> Server)
 
@@ -190,19 +190,19 @@ description: 通过WireShark抓包分析Https协议的内容...
 - 若采用RSA， 客户端随机生成46字节+2字节的client_version，作为PreMaster Key，通过步骤（3）得到的证书中的公钥、或者Server Key Exchange消息中的临时RSA公钥，对其进行加密发送给服务器。
 - 若采用DH算法（dhe_dss/dhe_rsa/dh_dss/dh_rsa/dh_anon等，下图就是DH算法生成PreMaster Key），字节根据已经交换的两个随机数可以算出PreMaster Key。
 
-￼![在这里插入图片描述](https://img-blog.csdnimg.cn/20190223210510907.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpZmVucw==,size_16,color_FFFFFF,t_70)
+￼![Client Key Exchange](https://img-blog.csdnimg.cn/20190223210510907.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3hpZmVucw==,size_16,color_FFFFFF,t_70)
 
 #### 8. Client Change Cipher Spec (Client → Server)
 
 表示客户端准备切换到加密环境，从这个消息后，客户端发送到的数据都将使用对称秘钥加密。
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190223210528625.png)
+![Client Change Cipher Spec](https://img-blog.csdnimg.cn/20190223210528625.png)
 
-#### 9. Encrypted handshake message （Client --> Server）
+#### 9. Client Encrypted handshake message （Client --> Server）
 
  Encrypted handshake message是使用对称秘钥加密后的第一个报文。 如果这个报文加解密校验成功，那么就说明对称秘钥是正确的。
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190223210536632.png)
+![Client encrypted handshake message](https://img-blog.csdnimg.cn/20190223210536632.png)
 
 #### 10. Server Change Cipher Spec (Server --> Client)
 
@@ -215,28 +215,28 @@ master_secret = PRF(pre_master_secret, "master secret", ClientHello.random + Ser
 ```
 后面的消息就使用master key作为秘钥进行对称加密后在传输。
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190223210612136.png)
+![Server change cipher cipher](https://img-blog.csdnimg.cn/20190223210612136.png)
 
-#### 11. Encrypted handshake message (Server --> Client)
+#### 11. Server Encrypted handshake message (Server --> Client)
 
 Encrypted HandShake Message是服务端使用对称秘钥加密后发送的第一条报文。
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190223210621830.png)
+![Server Encrypted handshake message](https://img-blog.csdnimg.cn/20190223210621830.png)
 
 #### 12. Application Data Protocol(Client -> Server)
 
 客户端发给服务端的应用层数据，已使用对称秘钥加密。
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190223210644486.png)
+![Client Application data protocol](https://img-blog.csdnimg.cn/20190223210644486.png)
 
 #### 13. Application Data Protocol (Server--> Client)
 
 服务端发给客户端的应用程层数据，已使用对称秘钥加密。
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190223210700490.png)
+![Server Application data protocol](https://img-blog.csdnimg.cn/20190223210700490.png)
 
 #### 14. Entrypted Alert(Server --> Client)
 
 Alert（21）消息是一种通知消息（Close Notify），表示连接可以关闭了，通常用于数据已发送完成、没有数据要发送时。
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190223210720641.png)
+![Encrypted Alert Message](https://img-blog.csdnimg.cn/20190223210720641.png)
