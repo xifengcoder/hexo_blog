@@ -461,7 +461,7 @@ font:
   codes:
     external: true
     family:
-
+    size: 0.7
 
 # ---------------------------------------------------------------
 # SEO Settings
