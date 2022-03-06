@@ -117,7 +117,7 @@ sidebar:
   #  - always  expand for all pages automatically.
   #  - hide    expand only when click on the sidebar toggle icon.
   #  - remove  totally remove sidebar including sidebar toggle.
-  display: post
+  display: hide
 
   # Sidebar padding in pixels.
   padding: 18
@@ -172,7 +172,7 @@ links:
 toc:
   enable: true
   # Automatically add list number to toc.
-  number: true
+  number: false
   # If true, all words will placed on next lines if header width longer then sidebar width.
   wrap: false
   # If true, all level of TOC in a post will be displayed, rather than the activated part of it.
@@ -437,8 +437,8 @@ font:
   # Global font settings used for all elements inside <body>.
   global:
     external: true
-    family: Lato
-    size:
+    family: -apple-system, BlinkMacSystemFont, "Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Helvetica,Arial,sans-serif
+    size: 0.95
 
   # Font settings for site title (.site-title).
   title:
@@ -461,7 +461,7 @@ font:
   codes:
     external: true
     family:
-    size: 0.7
+    size: 0.9
 
 # ---------------------------------------------------------------
 # SEO Settings
@@ -836,8 +836,8 @@ mermaid:
 # Use Animate.css to animate everything.
 # For more information: https://animate.style
 motion:
-  enable: true
-  async: false
+  enable: false
+  async: true
   transition:
     # All available transition variants: https://theme-next.js.org/animate/
     post_block: fadeIn

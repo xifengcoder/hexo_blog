@@ -24,10 +24,13 @@ description: 通过WireShark抓包分析Https协议的内容...
 
 其中密码套件算法包含如下几部分：
 
-1. ECDHE：密钥交换算法（Elliptic Curve Diffie-Hellman Ephemeral，ECDHE）
-2. RSA：认证算法（Rivest Shamir Adleman algorithm, RSA）
-3. AES-128-GCM：数据加密算法（Advanced Encryption Standard 128 bit Galois/Counter Mode）
-4. SHA256：消息摘要（MAC）算法（Secure Hash Algorithm 256 bit）
+1)  ECDHE：密钥交换算法（Elliptic Curve Diffie-Hellman Ephemeral，ECDHE）
+
+2) RSA：认证算法（Rivest Shamir Adleman algorithm, RSA）
+
+3) AES-128-GCM：数据加密算法（Advanced Encryption Standard 128 bit Galois/Counter Mode）
+
+4) SHA256：消息摘要（MAC）算法（Secure Hash Algorithm 256 bit）
 
 ![Client Hello](/images/https_client_hello.jpg)
 
