@@ -1,10 +1,10 @@
 ---
-title: Input系统的理解
+title: Input子系统的理解
 urlname: android_input
 date: 2021-05-01 16:16:54
 tags: Android
 categories: Android
-description: 
+description: 自底向上来分析Android Input子系统的框架及事件分发细节。
 ---
 
 ​    大概在2015至2016年那会，我主要负责云真机项目的开发，可以在Web端实时显示手机画面、并可以通过鼠标实现手机Touch事件的精准输入。当时曾对Android手机的Input子系统做过深入的研究，但是一直没有公开发表出来，这篇文章的大部分内容就是当时所写的。
