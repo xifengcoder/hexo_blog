@@ -8,10 +8,10 @@ description: ARouter使用总结，以及原理的探讨分析...
 ---
 Arouter通过APT技术生成的文件如下：
 package: com.alibaba.android.arouter.routes;
-* ARouter$$Group$$\<groupName>.java
-* ARouter$$Interceptors$$\<moduleName>.java
-* ARouter$$Providers$$\<moduleName>.java
-* ARouter$$Root$$\<moduleName>.java
+* ARouter\$\$Group$$\<groupName>.java
+* ARouter\$\$Interceptors$$\<moduleName>.java
+* ARouter\$\$Providers$$\<moduleName>.java
+* ARouter\$\$Root$$\<moduleName>.java
 
 如果使用AutoWired的话，会在原有的package下生成：
 * \<ClassName\>$$ARouter$$Autowired.java
@@ -77,7 +77,7 @@ public class ARouter$$Root$$moduleother implements IRouteRoot {
 }
 ```
 #### WareHouse的数据结构：
-![](https://img2020.cnblogs.com/blog/368055/202110/368055-20211006214111989-1436169959.jpg)
+![test.png](https://img2020.cnblogs.com/blog/368055/202110/368055-20211006214111989-1436169959.jpg)
 ![](https://img2020.cnblogs.com/blog/368055/202110/368055-20211006214135774-245463483.jpg)
 ![](https://img2020.cnblogs.com/blog/368055/202110/368055-20211006214149891-914672834.jpg)
 
