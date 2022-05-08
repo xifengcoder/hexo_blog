@@ -56,7 +56,7 @@ public class ARouter$$Providers$$moduleother implements IProviderGroup {
   }
 }
 ```
-3. ARouter$$Root$$\<moduleName>.java
+3. ARouter\$\$Root$$\<moduleName>.java
 ```java
 package com.alibaba.android.arouter.routes;
 
@@ -146,13 +146,15 @@ Arouter.init(this);
 #### Arouter.getInstance().build(String path);
 通过path和group构建一个Postcard实例；
 ### Postcard$navigation()
--> Postcard\$navigation(Context);
--> Postcard\$navigation(Context context, NavigationCallback callback)
--> Arouter\$navigation(Context mContext, Postcard postcard, int requestCode, NavigationCallback callback)
--> LogisticsCenter$completion(Postcard postcard);
-下面重点分析一下LogisticsCenter$completion（Postcard）方法。
+-> Postcard#navigation(Context)
+-> Postcard#navigation(Context context, NavigationCallback callback)
+-> Arouter#navigation(Context mContext, Postcard postcard, int requestCode, NavigationCallback callback)
+-> LogisticsCenter#completion(Postcard postcard)
+
+下面重点分析一下LogisticsCenter#completion(Postcard)方法。
+
 1. 根据postcard的path，从Warehouse.routes(Map<String, RouteMeta>)中查找RouteMeta实例routeMeta；
-2. 如果routeMeta为空，则先从Warehouse.groupsIndex中查找postcard所属的group对应的Class<? extends IRouteGroup>实例，然后通过反射构造出IRouteGroup实例，然后调用iGroupInstance.loadInto(Warehouse.routes)，然后再将postcard所属的group从Warehouse.groupsIndex中移除。然后再次调用LogisticsCenter$completion（Postcard）方法。
+2. 如果routeMeta为空，则先从Warehouse.groupsIndex中查找postcard所属的group对应的Class<? extends IRouteGroup>实例，然后通过反射构造出IRouteGroup实例，然后调用iGroupInstance.loadInto(Warehouse.routes)，然后再将postcard所属的group从Warehouse.groupsIndex中移除。然后再次调用LogisticsCenter#completion(Postcard)方法。
 3. 设置PostCard的destination、type、priority和extra。
 
 ```java
@@ -243,7 +245,9 @@ public class LogisticsCenter {
     }
 }
 ```
-4. 调用_ARouter$_navigation(final Context context, final Postcard postcard, final int requestCode, final NavigationCallback callback)实现跳转功能。如果是Activity的跳转，则会调用_ARouter$startActivity(int requestCode, Context currentContext, Intent intent, Postcard postcard, NavigationCallback callback)。
+4. 调用ARouter#_navigation(final Context context, final Postcard postcard, final int requestCode, final NavigationCallback callback)实现跳转功能。
+
+    如果是Activity的跳转，则会调用ARouter#startActivity(int requestCode, Context currentContext, Intent intent, Postcard postcard, NavigationCallback callback)。
 ```java
 final class _ARouter {
     ...
@@ -333,7 +337,11 @@ final class _ARouter {
 }
 ```
 ### 扫描dex文件中包名com.alibaba.android.arouter.routes下的所有class文件
-ClassUtils.getFileNameByPackageName()方法返回指定包名下的所有class文件名。举例：
+ClassUtils.getFileNameByPackageName()方法返回指定包名下的所有class文件名。
+
+举例：
+
+```java
 com.alibaba.android.arouter.routes.ARouter$$Root$$app
 com.alibaba.android.arouter.routes.ARouter$$Root$$moduleother，
 com.alibaba.android.arouter.routes.ARouter$$Root$$modulethird,
@@ -353,6 +361,10 @@ com.alibaba.android.arouter.routes.ARouter$$Providers$$modulethird,
 com.alibaba.android.arouter.routes.ARouter$$Providers$$moduleservice,
 
 com.alibaba.android.arouter.routes.ARouter$$Interceptors$$app
+```
+
+具体代码：
+
 ```java
 //ClassUtils.java
 
@@ -413,6 +425,8 @@ public static Set<String> getFileNameByPackageName(Context context, final String
 1. IRouteRoot
 2. IInterceptorGroup
 3. IProviderGroup
+
+然后添加到
 
 例如：
 ```

@@ -17,25 +17,32 @@ public final class ActivityRefWatcher {
   //生命周期监听
   private final Application.ActivityLifecycleCallbacks lifecycleCallbacks =
       new Application.ActivityLifecycleCallbacks() {
-        @Override public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+        @Override
+        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
         }
 
-        @Override public void onActivityStarted(Activity activity) {
+        @Override
+        public void onActivityStarted(Activity activity) {
         }
 
-        @Override public void onActivityResumed(Activity activity) {
+        @Override
+        public void onActivityResumed(Activity activity) {
         }
 
-        @Override public void onActivityPaused(Activity activity) {
+        @Override
+        public void onActivityPaused(Activity activity) {
         }
 
-        @Override public void onActivityStopped(Activity activity) {
+        @Override
+        public void onActivityStopped(Activity activity) {
         }
 
-        @Override public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+        @Override
+        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
         }
 
-        @Override public void onActivityDestroyed(Activity activity) {
+        @Override
+        public void onActivityDestroyed(Activity activity) {
           ActivityRefWatcher.this.onActivityDestroyed(activity);
         }
       };
@@ -89,7 +96,8 @@ public final class RefWatcher {
   
   private void ensureGoneAsync(final long watchStartNanoTime, final KeyedWeakReference reference) {
     watchExecutor.execute(new Retryable() {
-      @Override public Retryable.Result run() {
+      @Override
+      public Retryable.Result run() {
         return ensureGone(reference, watchStartNanoTime);
       }
     });
@@ -175,7 +183,7 @@ public final class AndroidWatchExecutor implements WatchExecutor {
   
   void postToBackgroundWithDelay(final Retryable retryable, final int failedAttempts) {
     long exponentialBackoffFactor = (long) Math.min(Math.pow(2, failedAttempts), maxBackoffFactor);
-    //delayMilles以指数退避依次递增.
+    //delayMilles以指数退避法依次递增.
     long delayMillis = initialDelayMillis * exponentialBackoffFactor;
     backgroundHandler.postDelayed(new Runnable() {
       @Override
@@ -186,6 +194,15 @@ public final class AndroidWatchExecutor implements WatchExecutor {
         }
       }
     }, delayMillis);
+  }
+  
+  void postWaitForIdle(final Retryable retryable, final int failedAttempts) {
+    mainHandler.post(new Runnable() {
+      @Override
+      public void run() {
+        waitForIdle(retryable, failedAttempts);
+      }
+    });
   }
 }
 ```

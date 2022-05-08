@@ -104,6 +104,14 @@ public class ViewModelProvider {
 
 单一方法接口，用于获取一个ViewModelStore实例。
 
+实现ViewModelStoreOwnwe的类有：
+
+- androidx.activity.ComponentActivity
+
+- androidx.fragment.app.Fragment
+
+- androidx.fragment.app.FragmentActivity, etc.
+
 ```java
 package androidx.lifecycle;
 
@@ -117,11 +125,33 @@ public interface ViewModelStoreOwner {
 
 androidx.activity.ComponentActivity中对该接口的实现如下：
 
-首先通过父类android.app.Activity的getLastNonConfigurationInstance()方法获取一个自定义的NonConfigurationInstances实例。
+首先通过父类android.app.Activity的**getLastNonConfigurationInstance()**方法获取一个自定义的NonConfigurationInstances实例。
 
-注意ComponentActivity类的onRetainNonConfigurationInstance()方法被定义为final的，即不允许子类override。但是，又重新定义了一个onRetainCustomNonConfigurationInstance()，供子类使用，功能与onRetainNonConfigurationInstance()完全一样。
+注意ComponentActivity类的**onRetainNonConfigurationInstance()**方法被定义为final的，即不允许子类override。但是，又重新定义了一个onRetainCustomNonConfigurationInstance()，供子类使用，功能与onRetainNonConfigurationInstance()完全一样。
 
-下面重点关注一下
+重点方法：
+
+- getViewModelStore() ——获取ViewModelStore实例：
+
+​    如果成员变量mViewModelStore中有值，则直接返回mViewModelStore; 
+
+从getLastNonConfigurationInstance()中获取，如果有值，则赋给mViewModelStore并返回；
+
+如果getLastNonConfigurationInstance()中无值，则new一个ViewModelStore实例，赋给mViewModelStore并返回。
+
+- onRetainNonConfigurationInstance() ——数据的保存与恢复
+
+​    当configuration放生变化时，onRetainNonConfigurationInstance()会被系统调用，处于onStop和onDestroy之间，可以用来保存
+
+任何Object的对象实例，当新的Activity实例被创建时通过getLastNonConfigurationInstance()获取上次保存的对象。
+
+ 1. 如果成员变量mViewModelStore已经有值，则构造一个NonConfigurationInstances实例返回；
+ 2. 如果mViewModelStore为空，则尝试从getLastNonConfigurationInstance()中获取：
+
+​    ①  getLastNonConfigurationInstance()无值、且onRetainCustomNonConfigurationInstance()中也无值，返回null；
+
+​    ②  构造一个NonConfigurationInstances实例返回。
+
 
 ```java
 package androidx.activity;
@@ -201,6 +231,8 @@ public class ComponentActivity extends androidx.core.app.ComponentActivity imple
 }
 ```
 
+
+
 ##### 3. ViewModelStore
 
 ViewModelStore用来保存ViewModel实例。
@@ -257,9 +289,24 @@ ViewModel负责准备、管理android.app.Activity或androidx.fragment.app.Fragm
 
 千万不要在ViewModel中访问View对象、或者持有Activity或者Fragment的引用。
 
+#####  5. 
+
+onSaveInstanceState方法是当Activity调用了onStop后，会调用到ActivityThread的callActivityOnSaveInstanceState()方法，把Activity需要保存的数据放入Bundle对象中，并且随后通过IPC进程间通信机制，调用ActivityManagerService的activityStopped方法，将Bundle对象保存到AMS端的ActivityRecord中。
+
+作者：字节小站
+链接：https://juejin.cn/post/6987566061499449357
+来源：稀土掘金
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
 #### 二、Lifecycle部分
 
 ##### 1. LifecycleOwner
+
+实现了androidx.lifecycle.LifecycleOwner接口的类：
+
+- androidx.activity.ComponentActivity和androidx.core.app.ComponentActivity；
+
+- androidx.fragment.app.Fragment；
 
 ```java
 package androidx.lifecycle;
@@ -381,9 +428,12 @@ public class MainActivity extends AppCompatActivity {
 生命周期的观察，分为Android 9及以上、Android 9以下两种情况：
 
 1. Build.VERSION.SDK_INT >= 29
-通过activity.registerActivityLifecycleCallbacks来感知生命周期；
+
+  通过activity.registerActivityLifecycleCallbacks来感知生命周期；
+
 2. Build.VERSION.SDK_INT < 29
-通过给activity绑定一个Fragment（名字为ReportFragment），然后使用Fragment的回调方法来感知声明周期。
+
+  通过给activity绑定一个Fragment（名字为ReportFragment），然后使用Fragment的回调方法来感知声明周期。
 
 ```java
 package androidx.lifecycle;
@@ -547,7 +597,7 @@ public class ReportFragment extends android.app.Fragment {
 ##### 5. LifecycleRegistry
 
 ```java
-
+public class LifecycleRegistry extends Lifecycle {
     @MainThread
     @NonNull
     public abstract State getCurrentState();
@@ -652,6 +702,7 @@ public class ReportFragment extends android.app.Fragment {
             throw new IllegalArgumentException(this + " has no target state");
         }
     }
+}
 ```
 
 
@@ -676,10 +727,124 @@ public class ReportFragment extends android.app.Fragment {
 
 #### 三、LiveData部分
 
-LiveData是一个可被观测的数据的持有类(data holder class)。
+- LiveData是一个可被观测的数据的持有类(data holder class)。源数据使用LiveData包装后，可以被observer观察；
 
-LifecycleOwner用于表示一个类拥有Lifecycle，而Observer则可以通过注册一个listener去监听生命周期的变化。
+- LifecycleOwner用于表示一个类拥有Lifecycle，而Observer则可以通过注册一个listener去监听生命周期的变化。使用LiveData的observe(LifecycleOwner owner, Observer<? super T> observer)方法将一个Observer对象attach到该LiveData对象上；
 
-使用LiveData的observe(@NonNull LifecycleOwner owner, @NonNull Observer<? super T> observer)方法将一个Observer对象附加（attach）到该LiveData对象上。
+- Observers只感知处于活跃生命周期状态（STARTED、RESUMED）的LifecycleOwner（Activity/Fragment）的数据变化，如果LifecycleOwner进入DESTROYED状态的话，则observers会被自动移除。
 
-当LifecycleOwner的状态是STARTED或者RESUMED时，被认为是活跃状态。Observers可以观察到处于活跃状态的owner的数据变化，如果owner进入DESTROYED状态，则observers会被自动移除。
+```java
+public abstract class LiveData<T> {
+  	final Object mDataLock = new Object(); //
+    private int mVersion;
+  
+	  private boolean mDispatchingValue;
+  
+	  @SuppressWarnings("FieldCanBeLocal")
+    private boolean mDispatchInvalidated;
+    private volatile Object mData;
+  
+  	private SafeIterableMap<Observer<? super T>, ObserverWrapper> mObservers =
+            new SafeIterableMap<>();
+  
+  	/**
+     * Sets the value. If there are active observers, the value will be dispatched to them.
+     * <p>
+     * This method must be called from the main thread. If you need set a value from a background
+     * thread, you can use {@link #postValue(Object)}
+     *
+     * @param value The new value
+     */
+    @MainThread
+    protected void setValue(T value) {
+        assertMainThread("setValue");
+        mVersion++;
+        mData = value;
+        dispatchingValue(null);
+    }
+  
+  	@SuppressWarnings("WeakerAccess") /* synthetic access */
+    void dispatchingValue(@Nullable ObserverWrapper initiator) {
+        if (mDispatchingValue) {
+            mDispatchInvalidated = true;
+            return;
+        }
+        mDispatchingValue = true;
+        do {
+            mDispatchInvalidated = false;
+            if (initiator != null) {
+                considerNotify(initiator);
+                initiator = null;
+            } else {
+                for (Iterator<Map.Entry<Observer<? super T>, ObserverWrapper>> iterator =
+                        mObservers.iteratorWithAdditions(); iterator.hasNext(); ) {
+                    considerNotify(iterator.next().getValue());
+                    if (mDispatchInvalidated) {
+                        break;
+                    }
+                }
+            }
+        } while (mDispatchInvalidated);
+        mDispatchingValue = false;
+    }
+  
+  	@SuppressWarnings("unchecked")
+    private void considerNotify(ObserverWrapper observer) {
+        if (!observer.mActive) {
+            return;
+        }
+        // Check latest state b4 dispatch. Maybe it changed state but we didn't get the event yet.
+        //
+        // we still first check observer.active to keep it as the entrance for events. So even if
+        // the observer moved to an active state, if we've not received that event, we better not
+        // notify for a more predictable notification order.
+        if (!observer.shouldBeActive()) {
+            observer.activeStateChanged(false);
+            return;
+        }
+        if (observer.mLastVersion >= mVersion) {
+            return;
+        }
+        observer.mLastVersion = mVersion;
+        observer.mObserver.onChanged((T) mData);
+    }
+}
+```
+
+##### 1. postValue连续执行多次会怎样？
+
+postValue会将任务post到主线程执行，如果连续多次调用改方法时，如果前面的Task还没开始执行、则后面的Task只是修改一下mPendingData就返回了，也就是说只会分发最新的值。
+
+##### 2. postValue和setValue同时执行会怎样？
+
+如果在主线程连续调用postValue和setValue，例如：
+
+```java
+liveData.postValue("a");
+liveData.setValue("b");
+```
+
+那么Observer会首先观察到b，然后再更新到a。因为postValue底层是用Handler#post(Runnable)来执行的，会比立即执行要慢。
+
+#### 四、onSaveInstanceState VS onRetainNonConfigurationInstance
+
+- onSaveInstanceState方法是当Activity调用了onStop后，会调用到ActivityThread的callActivityOnSaveInstanceState()方法，把Activity需要保存的数据放入Bundle对象中，并且随后通过IPC进程间通信机制，调用ActivityManagerService的activityStopped方法，将Bundle对象保存到AMS端的ActivityRecord中。
+- onRetainNonConfigurationInstance方法返回的Object会赋值给ActivityClientRecord的lastNonConfigurationInstances。
+
+##### 1. 区别
+
+- 颗粒度不一样。onSaveInstanceState()是保存到Bundle中，只能保存Bundle能接受的数据类型，比如一些基本类型的数据。而
+
+    onRetainNonConfigurationInstance() 可以保存任何类型的数据，数据类型是Object
+
+- onSaveInstanceState()数据最终存储到ActivityManagerService的ActivityRecord中了，也就是存到系统进程中去了。而onRetainNonConfigurationInstance() 数据是存储到ActivityClientRecord中，也就是存到应用本身的进程中了
+
+- onSaveInstanceState存到系统进程中，所以App被杀之后还是能恢复的。而onRetainNonConfigurationInstance存到本身进程中，
+
+    App被杀是没法恢复的。
+
+
+#### 四、参考文献
+
+1. ViewModel源码研究之聊聊onSaveInstanceState和onRetainNonConfigurationInstance的区别
+（https://juejin.cn/post/6987566061499449357）

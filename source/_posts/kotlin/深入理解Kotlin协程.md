@@ -20,7 +20,7 @@ suspend fun sample() {
 
 #### 2. Coroutine的生命周期
 
-![Coroutine的状态](/images/coroutine_state.JPG)
+![Coroutine的状态](https://xifengcoder.github.io/images/coroutine_state.JPG)
 
 #### 3. CoroutineContext
 
@@ -35,7 +35,7 @@ CoroutineContext是CoroutineScope的上下文（context）。CoroutineContext是
 
 每个元素的默认值如下：
 
-![CoroutineContext的元素](/images/coroutine_context.JPG)
+![CoroutineContext的元素](https://xifengcoder.github.io/images/coroutine_context.JPG)
 
 ##### 3.1 Job
 
@@ -53,11 +53,11 @@ Job是coroutine的句柄（handle），每一个使用launch或者async创建的
 
 CoroutineContext的获取：
 
-![CoroutineContext获取](/images/coroutine_context_default.JPG)
+![CoroutineContext获取](https://xifengcoder.github.io/images/coroutine_context_default.JPG)
 
 ##### 3.3 CoroutineExceptionHandler
 
-![Coroutine Exception Handler](/images/coroutine_exception_handler.JPG)
+![Coroutine Exception Handler](https://xifengcoder.github.io/images/coroutine_exception_handler.JPG)
 
 ###### 3.3.1 在构建CoroutineScope时，传入handler可以捕捉到异常
 
@@ -352,7 +352,7 @@ Exception in thread "DefaultDispatcher-worker-2" java.lang.IndexOutOfBoundsExcep
 
 将异常传播并传递给它的父级；
 
-![Coroutine的状态](/images/coroutine_exception.gif)
+![Coroutine的状态](https://xifengcoder.github.io/images/coroutine_exception.gif)
 
 ​    如果想要在某一个协程出现错误时，不会退出父级和影响其他的兄弟协程，就需要使用 SupervisorJob 或 supervisorScope 。具体实现有三种：
 
