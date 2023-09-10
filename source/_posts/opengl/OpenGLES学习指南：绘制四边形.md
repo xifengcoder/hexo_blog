@@ -2,8 +2,8 @@
 title: OpenGLES学习指南：绘制四边形
 urlname: draw_rectangle
 date: 2022-10-06 12:38:58
-tags: openGLES
-categories: openGLES
+tags: OpenGLES
+categories: OpenGLES
 description: Android平台使用OpenGLES绘制矩形
 ---
 

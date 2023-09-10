@@ -1,9 +1,9 @@
 ---
-title: Android OpenGLES 入门
+title: Android OpenGLES基础
 urlname: opengles_android
 date: 2022-04-26 22:38:10
-tags: OpenGL ES
-categories: Android
+tags: OpenGLES
+categories: OpenGLES
 description: Android平台OpenGL ES2.0入门
 ---
 
@@ -104,30 +104,10 @@ public static void setRotateM(float[] rm, int rmOffset,
 
 
 
-
-
-设置透视投影
-
 ```java
-    /**
-     * 设置透视投影
-     * Defines a projection matrix in terms of six clip planes.
-     *
-     * @param m 要填充矩阵元素的float[]类型数组
-     * @param 要填充其实偏移量
-     * @param near面的left
-     * @param near面的right
-     * @param near面的bottom
-     * @param near面的top
-     * @param near面与透视点的距离
-     * @param far面与透视点的距离
-     */
-    public static void frustumM(float[] m, int offset,
-            float left, float right, float bottom, float top,
-            float near, float far) {
-      ...
-    }
-```
+
+
+
 
 
 

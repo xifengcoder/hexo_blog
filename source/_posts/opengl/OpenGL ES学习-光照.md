@@ -7,7 +7,69 @@ categories: OpenGLES
 description: OpenGLES
 ---
 
-#### 漫反射光照
+![img](https://img-blog.csdnimg.cn/d1cef96742da4121860d648ba2575f8e.png)
+
+#### 环境光（Ambient）
+
+环境光照：物体永远不会是完全黑暗，使用一个环境光照常量，永远给物体一些颜色。
+
+​							环境光照射结果 = 材质的反射系数 X 环境光照强度
+
+Vertex Shader
+
+```java
+uniform mat4 uMVPMatrix; //总变换矩阵
+attribute vec3 aPosition;  //顶点位置
+varying vec3 vPosition;//用于传递给片元着色器的顶点位置
+varying vec4 vAmbient;//用于传递给片元着色器的环境光分量
+void main()
+{
+   //根据总变换矩阵计算此次绘制此顶点位置
+   gl_Position = uMVPMatrix * vec4(aPosition,1);
+   //将顶点的位置传给片元着色器
+   vPosition = aPosition;
+   //将的环境光分量传给片元着色器
+   vAmbient = vec4(0.15,0.15,0.15,1.0);
+}
+```
+
+Fragment Shader
+
+```java
+precision mediump float;
+uniform float uR;
+varying vec3 vPosition;//接收从顶点着色器过来的顶点位置
+varying vec4 vAmbient;//接收从顶点着色器过来的环境光分量
+void main()                         
+{
+   vec3 color;
+   float n = 8.0;//一个坐标分量分的总份数
+   float span = 2.0 * uR / n;//每一份的长度
+   //每一维在立方体内的行列数
+   int i = int((vPosition.x + uR)/span);
+   int j = int((vPosition.y + uR)/span);
+   int k = int((vPosition.z + uR)/span);
+   //计算当点应位于白色块还是黑色块中
+   int whichColor = int(mod(float(i + j + k), 2.0));
+   if(whichColor == 1) {//奇数时为红色
+   		color = vec3(0.678, 0.231, 0.129);//红色
+   }
+   else {//偶数时为白色
+   		color = vec3(1.0,1.0,1.0);//白色
+   }
+   //最终颜色
+   vec4 finalColor=vec4(color,0);
+   //给此片元颜色值
+   gl_FragColor= finalColor * vAmbient;
+}     
+```
+
+#### 散射光（Diffuse）
+
+漫反射光照：模拟光源对物体方向性影响。物体某一部分越是对着光源越亮。
+
+
+#### 镜面光（Specular）
 
 ```c
 uniform mat4 uMVPMatrix; 						//总变换矩阵
